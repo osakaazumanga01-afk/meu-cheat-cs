@@ -1,0 +1,22 @@
+name: Gerar DLL do Cheat
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Configurar Compilador x86 (32-bit)
+      uses: egor-tisin/setup-mingw@v2
+      with:
+        platform: x86
+
+    - name: Compilar Código Fonte
+      run: g++ -shared -m32 -o meu_aimbot.dll main.cpp -luser32
+
+    - name: Upload da DLL Pronta
+      uses: actions/upload-artifact@v4
+      with:
+        name: cheat-dll
+        path: meu_aimbot.dll
